@@ -12,9 +12,9 @@ A list of valid campuses is specific in the plugin settings. They are entered on
 
 For example, valid settings would look like:
 
-`campus-name-url-value=Campus Name
-marketing=Marketing
-sales=Sales`
+    campus-name-url-value=Campus Name
+    marketing=Marketing
+    sales=Sales
 
 ## Triggering MultiCampus Cookie
 
