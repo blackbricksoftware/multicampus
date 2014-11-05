@@ -111,7 +111,7 @@ class PlgSystemMultiCampus extends JPlugin {
 		
 		$app = JFactory::getApplication(); 
 		
-		if ($app->isAdmin()) $vars;
+		if ($app->isAdmin()) return $vars;
 
 		$multicampus = $app->input->cookie->getString('multicampus');
 
