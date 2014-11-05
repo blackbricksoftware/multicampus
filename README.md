@@ -29,3 +29,11 @@ This visitor then proceeds to look around your website. They eventually decide y
 ## What's it good for?
 
 I wrote the plugin for a church that had three locations. They wanted to share a single website and most of the content. However, they wanted visitors to be able to choose which campus they belonged to and have content specific content delivered to them transparently (i.e. not having large complicated menu/module system). The site looks the same to ever visitor, but depending on which campus they were directed to the correct area of the site. This was especially important for items such as bullions, news, and donations. 
+
+## Caveats
+
+Please someone help me out here if you know the answer. It appears Joomla doesn't pass menu items of the type External URL or Menu Item Alias to the route builders. This means these types of url's cannot be rewritten by this plugin. 
+
+However. I added a work around as of v0.0.2. Create them menu items with the correct alias and a normal type -- I use Featured Articles. Then create a redirect for that url to the external url or alias you want to go to in the Joomla Redirect component. Finally, enable "Redirect Publish URLs" in the plugin.
+
+Basically, the URLs are rewritten as before. When requested, the plugin hijacks the request, checks the Joomla redirects for where you want the request to go, and redirects if necessary. This work nearly the same as the default redirect plugin, but it will redirect urls regardless of whether they exists or not; the default one will only redirect if they don't exist.

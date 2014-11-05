@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <extension version="3.1" type="plugin" group="system" method="upgrade">
 	<name>System - Multi Campus</name>
-	<version>0.0.1</version>
+	<version>0.0.2</version>
     <description><![CDATA[<p>Multi Campus for Joomla 3.1.x. Created by <a href="http://gottalottamarketing.com/" target="_blank">Black Brick Software LLC</a>.</p>]]></description>
     <license>http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL</license>
     <author>Black Brick Software LLC</author>
@@ -21,6 +21,10 @@
 		<fields name="params">
 			<fieldset name="basic">
 				<field name="campuses" type="textarea" default="" label="Valid Campuses" description="One per line, url-var=Translation String. url-val is pass in url via multicampus=url-var" rows="10" cols="5" />
+				<field name="redirectPublished" type="list" default="0" label="Redirect Publish URLs" description="Joomla doesn't pass External URL or Menu Item Alias types to the plugin to check for alternate urls. We can get around this by setting the urls an External URL menu item then using a redirect in Joomla's default Redirect component." >
+					<option value="0">No</option>
+					<option value="1">Yes</option>
+				</field>
 			</fieldset>
 		</fields>
 	</config>

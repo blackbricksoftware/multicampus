@@ -27,13 +27,16 @@ class PlgSystemMultiCampus extends JPlugin {
 		
 		if ($app->isAdmin()) return;
 		
+		if ($this->params->get('redirectPublished',0)) $this->redirectPublished();
+		
 		$router = $app->getRouter();
 		$router->attachBuildRule(array($this, 'buildRule'));
 		$router->attachParseRule(array($this, 'parseRule'));
 		
 		$campusconfig = $this->getCampusConfig();
 		
-		$multicampus = $app->input->getString('multicampus');
+		$multicampus = $app->input->post->getString('multicampus');
+		if (empty($multicampus)) $multicampus = $app->input->get->getString('multicampus'); 
 		
 		if (!empty($multicampus)&&empty($campusconfig[$multicampus])) $multicampus = '';
 		
@@ -85,6 +88,9 @@ class PlgSystemMultiCampus extends JPlugin {
 		$item = $menu->getItem($Itemid);
 		if (empty($item)||empty($item->route)) return;
 
+		// route matching or external urls with redirects -- joomla doesnt pass External Urls or Menu Item Aliases to this
+		//~ $route = $item->type=='url' && JUri::isInternal($item->link) ? $item->link : $item->route; //
+		
 		$segments = explode('/',$item->route);	
 		if ($urlmulticampus==$segments[0]) return;
 
@@ -152,6 +158,31 @@ class PlgSystemMultiCampus extends JPlugin {
 		}
 			
 		return static::$campusconfig;		
+	}
+	
+	public function redirectPublished() {
+		
+		// Get the application object.
+		$app = JFactory::getApplication();
+		
+		// Get the full current URI.
+		$uri = JUri::getInstance();
+		$current = rawurldecode($uri->toString(array('scheme', 'host', 'port', 'path', 'query', 'fragment')));
+
+		// See if the current url exists in the database as a redirect.
+		$db = JFactory::getDbo();
+		$query = $db->getQuery(true)
+			->select($db->quoteName('new_url'))
+			->select($db->quoteName('published'))
+			->from($db->quoteName('#__redirect_links'))
+			->where($db->quoteName('old_url') . ' = ' . $db->quote($current));
+		$db->setQuery($query, 0, 1);
+		$link = $db->loadObject();
+
+		// If a redirect exists and is published, permanently redirect.
+		if ($link and ($link->published == 1)) {
+			$app->redirect($link->new_url, true);
+		}
 	}
 }
 
