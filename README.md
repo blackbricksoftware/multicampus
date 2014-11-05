@@ -4,6 +4,8 @@ MultiCampus
 Routing Plugin for Jooma 3+.
 ----------------------------
 
+(Corresponding module [here](https://github.com/blackbricksoftware/multicampusdisplay).)
+
 This plugin will transparently rewrite matching urls if a cookie is set. It is designed to match a generic url or an organization and rewrite it to the department, campus, or location specific url based on a cookie (if it exists). For example, `https://example.com/donate` will be rewriten to `https://example.com/department/donate`.
 
 ## Settings
