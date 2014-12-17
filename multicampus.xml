@@ -21,6 +21,10 @@
 		<fields name="params">
 			<fieldset name="basic">
 				<field name="campuses" type="textarea" default="" label="Valid Campuses" description="One per line, url-var=Translation String. url-val is pass in url via multicampus=url-var" rows="10" cols="5" />
+				<field name="hideShowCss" type="list" default="1" label="Publish CSS" description="Publish css for 'multicampushide-url-var' and 'multicampusshow-url-var'. 'multicampushide-url-var' hides the element for that campus. 'multicampusshow-url-var' hides the element for all other campuses." >
+					<option value="0">No</option>
+					<option value="1">Yes</option>
+				</field>
 				<field name="redirectPublished" type="list" default="0" label="Redirect Publish URLs" description="Joomla doesn't pass External URL or Menu Item Alias types to the plugin to check for alternate urls. We can get around this by setting the urls an External URL menu item then using a redirect in Joomla's default Redirect component." >
 					<option value="0">No</option>
 					<option value="1">Yes</option>

@@ -24,6 +24,7 @@ class PlgSystemMultiCampus extends JPlugin {
 	public function onAfterInitialise() {
 
 		$app = JFactory::getApplication(); 
+		$doc = JFactory::getDocument();
 		
 		if ($app->isAdmin()) return;
 		
@@ -51,15 +52,24 @@ class PlgSystemMultiCampus extends JPlugin {
 			}
 		}
 		
-		if (!empty($multicampus)&&!empty($campusconfig[$multicampus])) {
-				
-			$time = time() + 60*60*24*365; // expire in a year
+		if (empty($multicampus)||empty($campusconfig[$multicampus])) return;
 			
-			$conf = JFactory::getConfig();
-			$domain = $conf->get('cookie_domain', '');
-			$path = $conf->get('cookie_path', '/');
-			
-			$app->input->cookie->set('multicampus',$multicampus,$time,$path,$domain);
+		// set multicampus cookie
+		$time = time() + 60*60*24*365; // expire in a year
+		$conf = JFactory::getConfig();
+		$domain = $conf->get('cookie_domain', '');
+		$path = $conf->get('cookie_path', '/');
+		$app->input->cookie->set('multicampus',$multicampus,$time,$path,$domain);
+		
+		// set multicampus css
+		if ($this->params->get('hideShowCss',0)) {
+			$doc->addStyleDeclaration("
+				[class^='multicampusshow-']:not(.multicampusshow-".$multicampus."), 
+				[class*=' multicampusshow=']:not(.multicampusshow-".$multicampus."),
+				.multicampushide-".$multicampus." { 
+					display: none !important; 
+				}				 
+			");			
 		}
 	}
 	
