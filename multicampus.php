@@ -36,11 +36,12 @@ class PlgSystemMultiCampus extends JPlugin {
 		
 		$campusconfig = $this->getCampusConfig();
 		
+		// itentify campus from query
 		$multicampus = $app->input->post->getString('multicampus');
 		if (empty($multicampus)) $multicampus = $app->input->get->getString('multicampus'); 
-		
 		if (!empty($multicampus)&&empty($campusconfig[$multicampus])) $multicampus = '';
 		
+		// itemtify campus from segments
 		if (empty($multicampus)) {
 			$uri = JUri::getInstance();
 			$path = $uri->getPath();
@@ -52,14 +53,19 @@ class PlgSystemMultiCampus extends JPlugin {
 			}
 		}
 		
+		// set cookie if we have a new campus
+		if (!empty($multicampus)&&!empty($campusconfig[$multicampus])) {
+			// set multicampus cookie
+			$time = time() + 60*60*24*365; // expire in a year
+			$conf = JFactory::getConfig();
+			$domain = $conf->get('cookie_domain', '');
+			$path = $conf->get('cookie_path', '/');
+			$app->input->cookie->set('multicampus',$multicampus,$time,$path,$domain);
+		}
+		
+		// get our multicampus from cookie
+		$multicampus = $app->input->cookie->get('multicampus');
 		if (empty($multicampus)||empty($campusconfig[$multicampus])) return;
-			
-		// set multicampus cookie
-		$time = time() + 60*60*24*365; // expire in a year
-		$conf = JFactory::getConfig();
-		$domain = $conf->get('cookie_domain', '');
-		$path = $conf->get('cookie_path', '/');
-		$app->input->cookie->set('multicampus',$multicampus,$time,$path,$domain);
 		
 		// set multicampus css
 		if ($this->params->get('hideShowCss',0)) {
