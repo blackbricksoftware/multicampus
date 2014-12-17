@@ -65,7 +65,7 @@ class PlgSystemMultiCampus extends JPlugin {
 		if ($this->params->get('hideShowCss',0)) {
 			$doc->addStyleDeclaration("
 				[class^='multicampusshow-']:not(.multicampusshow-".$multicampus."), 
-				[class*=' multicampusshow=']:not(.multicampusshow-".$multicampus."),
+				[class*=' multicampusshow-']:not(.multicampusshow-".$multicampus."),
 				.multicampushide-".$multicampus." { 
 					display: none !important; 
 				}				 
